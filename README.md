@@ -172,6 +172,8 @@ There is no `config.py` — the only constant worth noting is the CSV path, set 
 **100 Days of Code: The Complete Python Pro Bootcamp** — Day 72.
 Topics: pandas DataFrames, data cleaning, column arithmetic, sorting, indexing with `.loc`, `.groupby()` aggregation.
 
+See [docs/COURSE_NOTES.md](docs/COURSE_NOTES.md) for the original exercise brief and key concepts.
+
 ---
 
 ## 9. Dependencies
