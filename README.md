@@ -38,21 +38,33 @@ Open any notebook in `theory/` to read the lesson or any notebook in `practice/`
 ## 2. Analysis Flow
 
 ```
-data/salaries_by_college_major.csv
-          │
-          ▼
-    pd.read_csv()  →  raw DataFrame (52 rows × 6 columns)
-          │
-          ▼
-    .isna() / .dropna()  →  clean_df (51 rows, NaN footer removed)
-          │
-          ├── .idxmax() / .idxmin()  →  highest / lowest salary lookups
-          │
-          ├── .insert('Spread', 90th − 10th)
-          │       └── .sort_values('Spread')         →  lowest-risk majors
-          │       └── .sort_values('90th Percentile') →  highest-potential majors
-          │
-          └── .groupby('Group').mean()  →  STEM / Business / HASS averages
+pipeline
+    │
+    │  ── [Ingestion] ────────────────────────────────────────────────
+    ├── pd.read_csv()  →  salaries_by_college_major.csv  →  df (52 rows × 6 columns)
+    │
+    │  ── [Inspection] ───────────────────────────────────────────────
+    ├── .head() / .tail()        →  preview rows, spot the NaN footer row
+    ├── .shape / .columns        →  confirm 52 rows × 6 columns and column names
+    ├── .isna() / .isna().sum()  →  NaN confirmed to last row only
+    │
+    │  ── [Cleaning] ─────────────────────────────────────────────────
+    ├── df.dropna()  →  clean_df  (NaN footer removed — 51 majors remain)
+    │
+    │  ── [Lookup] ───────────────────────────────────────────────────
+    ├── .max() / .idxmax()      →  row index of highest starting salary major
+    ├── .min() / .idxmin()      →  row index of lowest starting / mid-career salary major
+    ├── clean_df.loc[idx, col]  →  major name retrieved at that index
+    │
+    │  ── [Feature Engineering] ──────────────────────────────────────
+    ├── 90th Percentile − 10th Percentile       →  spread_col (salary risk proxy)
+    ├── clean_df.insert(1, 'Spread', spread_col) →  Spread column added to clean_df
+    │
+    │  ── [Ranking] ──────────────────────────────────────────────────
+    ├── .sort_values('Spread')                                        →  low_risk
+    ├── .sort_values('Mid-Career 90th Percentile Salary', asc=False)  →  highest_potential
+    ├── .sort_values('Spread', ascending=False)                       →  greatest_salary_spread
+    └── .sort_values(['Spread', '90th Percentile'], ascending=False)  →  high_risk_high_reward
 ```
 
 ---
