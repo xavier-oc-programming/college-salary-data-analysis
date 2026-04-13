@@ -1,4 +1,4 @@
-# Day 72 — Data Exploration with Pandas: College Major vs Your Salary
+# Data Exploration with Pandas: College Major vs Your Salary
 
 Explores post-university salary outcomes by major using pandas — cleaning data, ranking by earning potential, measuring salary risk, and comparing degree categories with group aggregation.
 
